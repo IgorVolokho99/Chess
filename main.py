@@ -1,7 +1,4 @@
-import time
-
 from moves import MOVES_OF_KNIGHT, MOVES_OF_ROOK, MOVES_OF_BISHOP
-from helpers import check_time
 
 
 class Coord:
@@ -89,6 +86,17 @@ class Figure:
                 if board[to.y][to.x] != '-':
                     if board[self.coord.y][self.coord.x].isupper() != board[to.y][to.x].isupper():
                         if board[to.y][to.x].upper() == 'N':
+                            return True
+
+        directions_of_white_pawns = ((1, -1), (1, 1))
+        directions_of_black_pawns = ((-1, -1), (-1, 1))
+        directions = directions_of_black_pawns if self.type_of_figure.isupper() else directions_of_white_pawns
+        for dy, dx in directions:
+            to = self.new_coord(self.coord, (dy, dx))
+            if to.valide:
+                if board[to.y][to.x] != '-':
+                    if board[self.coord.y][self.coord.x].isupper() != board[to.y][to.x].isupper():
+                        if board[to.y][to.x].upper() == 'P':
                             return True
 
         return False
