@@ -37,6 +37,7 @@ class Figure:
         self.object = object_of_board
         if self.type_of_figure.upper() == 'K':
             self.generate_king_move(board)
+            self.make_castling(board)
         elif self.type_of_figure.upper() == 'R':
             self.generate_rook_move(board)
         elif self.type_of_figure.upper() == 'B':
@@ -49,6 +50,24 @@ class Figure:
             self.generate_white_pawn_move(board)
         elif self.type_of_figure == 'p':
             self.generate_black_pawn_move(board)
+
+    def make_castling(self, board):
+        if self.type_of_figure.isupper():
+            if self.object.castling['K']:
+                counter = 0
+                self.coord = Coord(self.coord.y, self.coord.x + 1)
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 1))
+                if self.check_attack_to_king(board):
+                    counter += 1
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 1))
+                self.coord = Coord(self.coord.y, self.coord.x + 1)
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 2))
+                if self.check_attack_to_king(board):
+                    counter += 1
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 1))
+                if counter == 2:
+                    self.moves.append(Coord(self.coord.y, self.coord.x))
+                self.coord = Coord(self.coord.y, self.coord.x - 2)
 
     def check_attack_to_king(self, board):
         directions = MOVES_OF_ROOK
