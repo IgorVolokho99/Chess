@@ -1,3 +1,5 @@
+import copy
+
 from moves import MOVES_OF_KNIGHT, MOVES_OF_ROOK, MOVES_OF_BISHOP
 
 
@@ -37,7 +39,7 @@ class Figure:
         self.object = object_of_board
         if self.type_of_figure.upper() == 'K':
             self.generate_king_move(board)
-            self.make_castling(board)
+            self.make_castling(copy.deepcopy(board))
         elif self.type_of_figure.upper() == 'R':
             self.generate_rook_move(board)
         elif self.type_of_figure.upper() == 'B':
@@ -54,6 +56,8 @@ class Figure:
     def make_castling(self, board):
         if self.type_of_figure.isupper():
             if self.object.castling['K']:
+                if board[self.coord.y][self.coord.x + 1] != '-' or board[self.coord.y][self.coord.x + 2] != '-':
+                    return
                 counter = 0
                 self.coord = Coord(self.coord.y, self.coord.x + 1)
                 board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 1))
@@ -61,13 +65,73 @@ class Figure:
                     counter += 1
                 board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 1))
                 self.coord = Coord(self.coord.y, self.coord.x + 1)
+
                 board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 2))
                 if self.check_attack_to_king(board):
                     counter += 1
-                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 1))
-                if counter == 2:
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 2))
+
+                if counter == 0:
                     self.moves.append(Coord(self.coord.y, self.coord.x))
                 self.coord = Coord(self.coord.y, self.coord.x - 2)
+            if self.object.castling['Q']:
+                if board[self.coord.y][self.coord.x - 1] != '-' or board[self.coord.y][self.coord.x - 2] != '-':
+                    return
+                counter = 0
+                self.coord = Coord(self.coord.y, self.coord.x - 1)
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x + 1))
+                if self.check_attack_to_king(board):
+                    counter += 1
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x + 1))
+                self.coord = Coord(self.coord.y, self.coord.x - 1)
+
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x + 2))
+                if self.check_attack_to_king(board):
+                    counter += 1
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x + 2))
+
+                if counter == 0:
+                    self.moves.append(Coord(self.coord.y, self.coord.x))
+                self.coord = Coord(self.coord.y, self.coord.x + 2)
+        else:
+            if self.object.castling['k']:
+                if board[self.coord.y][self.coord.x + 1] != '-' or board[self.coord.y][self.coord.x + 2] != '-':
+                    return
+                counter = 0
+                self.coord = Coord(self.coord.y, self.coord.x + 1)
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 1))
+                if self.check_attack_to_king(board):
+                    counter += 1
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 1))
+                self.coord = Coord(self.coord.y, self.coord.x + 1)
+
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 2))
+                if self.check_attack_to_king(board):
+                    counter += 1
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x - 2))
+
+                if counter == 0:
+                    self.moves.append(Coord(self.coord.y, self.coord.x))
+                self.coord = Coord(self.coord.y, self.coord.x - 2)
+            if self.object.castling['q']:
+                if board[self.coord.y][self.coord.x - 1] != '-' or board[self.coord.y][self.coord.x - 2] != '-':
+                    return
+                counter = 0
+                self.coord = Coord(self.coord.y, self.coord.x - 1)
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x + 1))
+                if self.check_attack_to_king(board):
+                    counter += 1
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x + 1))
+                self.coord = Coord(self.coord.y, self.coord.x - 1)
+
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x + 2))
+                if self.check_attack_to_king(board):
+                    counter += 1
+                board = self.swap(board, self.coord, Coord(self.coord.y, self.coord.x + 2))
+
+                if counter == 0:
+                    self.moves.append(Coord(self.coord.y, self.coord.x))
+                self.coord = Coord(self.coord.y, self.coord.x + 2)
 
     def check_attack_to_king(self, board):
         directions = MOVES_OF_ROOK
@@ -319,7 +383,7 @@ class Figure:
             else:
                 self.swap(board, self.coord, to)
 
-        to = self.new_coord(self.coord, (-2, 0))
+        to = self.new_coord(self.coord, (2, 0))
         if self.coord.y == 1 and to.valide and board[to.y][to.x] == '-' and board[to.y + 1][to.x] == '-':
             self.swap(board, self.coord, to)
             if not union_king.check_attack_to_king(board):
@@ -444,7 +508,7 @@ class Chess:
                         else:
                             print('-', end=' ')
                     print()
-                print('------------------------------------------')
+                print('---------------')
 
     @staticmethod
     def from_letters_to_coord(coord_with_letters: str) -> Coord:

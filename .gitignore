@@ -1,3 +1,10 @@
 venv
 test.py
 /testing_boards.py
+/.idea/Chess.iml
+/.idea/workspace.xml
+/.idea/vcs.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/modules.xml
+/.idea/misc.xml
+/.idea/material_theme_project_new.xml
