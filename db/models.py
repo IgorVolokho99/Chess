@@ -16,4 +16,5 @@ class Test(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     fen = Column(String(100), index=True, unique=True, nullable=False)
-    result_pos = Column(String, unique=True, nullable=False)
+    result_pos = Column(String(64), unique=True, nullable=False)
+    result_move = Column(String, unique=True, nullable=False)
