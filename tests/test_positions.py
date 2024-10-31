@@ -6,6 +6,10 @@ from main import Chess
 
 
 def test_positions():
+    """ Функция, которая достает фикстуры из таблицы tests postgreSQL.
+    Любая запись представляет из себя fen, описание позиции, а также заранее проверенные оцифрованные позиции и
+    возможные ходы. На основе fen заново генерируется позиция и ходы, после производится сравнение с корректными данными
+    из бд. """
     session_factory = sessionmaker(engine)
     session = scoped_session(session_factory)
 
