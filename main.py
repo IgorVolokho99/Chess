@@ -487,6 +487,12 @@ class Chess:
         for i in range(len(self.board)):
             print(self.board[i])
 
+    def get_board(self) -> str:
+        result = ''
+        for i in range(len(self.board)):
+            result += ''.join(self.board[i])
+        return result
+
     def generate_moves(self):
         if self.order_of_move == 'w':
             for figure in self.white_figures:
@@ -509,6 +515,26 @@ class Chess:
                             print('-', end=' ')
                     print()
                 print('---------------')
+
+    def get_moves(self) -> str:
+        figures = self.white_figures if self.order_of_move == 'w' else self.black_figures
+        result = ''
+        for figure in figures:
+            if len(figure.moves) > 0:
+                for i in range(len(self.board)):
+                    for j in range(len(self.board[i])):
+                        if Coord(i, j) == figure.coord:
+                            # print(figure.type_of_figure, end=' ')
+                            result += figure.type_of_figure
+                        elif Coord(i, j) in figure.moves:
+                            # print('*', end=' ')
+                            result += '*'
+                        else:
+                            # print('-', end=' ')
+                            result += '-'
+                    # print()
+                # print('---------------')
+        return result
 
     @staticmethod
     def from_letters_to_coord(coord_with_letters: str) -> Coord:
