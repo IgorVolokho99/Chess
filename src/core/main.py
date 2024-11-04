@@ -1,6 +1,6 @@
 import copy
 
-from moves import MOVES_OF_KNIGHT, MOVES_OF_ROOK, MOVES_OF_BISHOP
+from src.core.moves import MOVES_OF_KNIGHT, MOVES_OF_ROOK, MOVES_OF_BISHOP
 
 
 class Coord:

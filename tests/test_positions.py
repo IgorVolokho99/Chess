@@ -1,8 +1,7 @@
-import pytest
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-from db.models import engine, Test
-from main import Chess
+from src.db.models import engine, Test
+from src.core.main import Chess
 
 
 def test_positions():
