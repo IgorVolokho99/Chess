@@ -1,7 +1,7 @@
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 from src.db.models import engine, Test
-from src.core.main import Chess
+from src.core.chess_engine import ChessEngine
 
 
 def test_positions():
@@ -15,7 +15,7 @@ def test_positions():
     result = session.query(Test).all()
 
     for item in result:
-        testing_object = Chess(fen=item.fen)
+        testing_object = ChessEngine(fen=item.fen)
         assert testing_object.get_board() == item.result_pos, f"Error in {item.type_of_position} with id - {item.id} (Board)"
         assert testing_object.get_moves() == item.result_moves, f"Error in {item.type_of_position} with id - {item.id} (Moves)"
     session.close()

@@ -1,14 +1,14 @@
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-from src.db import Test, engine
-from src.core.main import Chess
+from src.db.models import Test, engine
+from src.core.chess_engine import ChessEngine
 
-
+# fen - asdasdfa pos - asdasdasdasd moves - asdasdasdasdasdasdasdas
 # Simple position
 type_of_position = 'Simple position'
-fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+fen = "3r4/7k/8/8/3Q4/3KR2q/8/8 w - - 0 1"
 
-game = Chess(fen=fen)
+game = ChessEngine(fen=fen)
 game.show_board()
 game.show_moves()
 
